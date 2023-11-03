@@ -1,3 +1,5 @@
+import simpleTest from "./seleniumHelper";
+
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
 // Replace the placeholder with your Atlas connection string
@@ -27,6 +29,8 @@ async function run() {
     );
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+    await simpleTest(); 
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  selenium:
+    image: selenium/standalone-chrome:latest
+    shm_size: 2gb
+    container_name: selenium_badmintonplayer
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    environment:
+      - VNC_NO_PASSWORD=1
+      
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: badminton
+    ports:
+      - 5432:5432
+
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
