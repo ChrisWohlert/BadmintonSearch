@@ -25,6 +25,8 @@ dependencies:
   - text
   - postgresql-simple
   - bytestring
+  - io-streams
+  - split
 
 ghc-options:
   - -Wall

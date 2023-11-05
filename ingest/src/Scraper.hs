@@ -7,19 +7,14 @@
 
 module Scraper
   ( elemWithText,
-    ifExists,
     (|>=),
     (|->),
     (|-->),
     (|><),
-    (|>>),
     WebDriver,
     click,
     getText,
     findElem,
-    findElems,
-    refresh,
-    back,
     findElemFrom,
     findElemsFrom,
     waitUntil,
@@ -27,8 +22,6 @@ module Scraper
   )
 where
 
-import Control.Monad
-import Data.Functor
 import Data.String hiding (words)
 import Data.Text hiding (drop, filter, length, map, take, zip)
 import Debug.Trace
@@ -50,16 +43,11 @@ instance IsString WebElements where
   fromString :: String -> WebDriver [Element]
   fromString = findElements CssSelector . pack
 
-elemWithText :: Selector -> Text -> WebDriver Element
-elemWithText selector t = waitUntil 15 $ do
-  es <- findElems selector
-  filtered <- catchError (filterM (fmap (t `isPrefixOf`) . getText) es) (const $ return [])
-  case filtered of
-    [] -> throwError NoSession
-    (x : _) -> return x
-
-ifExists :: Selector -> a -> WebDriver a -> WebDriver a
-ifExists selector d f = waitUntil 5 (findElem selector $> d) `onTimeout` f
+elemWithText :: [Element] -> Text -> WebDriver (Maybe Element)
+elemWithText [] _ = pure Nothing
+elemWithText (x : xs) t = do
+  text <- getText x
+  if text == t then pure $ Just x else elemWithText xs t
 
 (|>=) :: WebDriver Element -> (Element -> WebDriver b) -> WebDriver b
 selector |>= f = waitUntil 15 selector >>= f
@@ -74,42 +62,25 @@ element |--> selector = findElemsFrom element selector
 e |>< f = do
   e |>= click
   y <- waitUntil 15 f
-  back
-  refresh
+  goBack
+  pageRefresh
   return y
 
 infixr 1 |><
 
-(|>>) :: Selector -> (Element -> WebDriver a) -> WebDriver [a]
-gen |>> f = loop gen f 0
-  where
-    loop :: Selector -> (Element -> WebDriver a) -> Int -> WebDriver [a]
-    loop g f' offset = do
-      refresh
-      es <- waitUntil 30 (findElem g *> findElems g)
-      case drop offset es of
-        (n : _) -> do
-          t <- getText n
-          traceShowM t
-          r <- f' n
-          rest <- waitUntil 15 $ loop g f' (offset + 1)
-          return $ r : rest
-        [] -> return []
-
+click :: Element -> WebDriver ()
 click = elementClick
 
+getText :: Element -> WebDriver Text
 getText = getElementText
 
+findElem :: Selector -> WebDriver Element
 findElem = findElement CssSelector
 
-findElems = findElements CssSelector
-
-refresh = pageRefresh
-
-back = goBack
-
+findElemFrom :: Element -> Selector -> WebDriver Element
 findElemFrom e s = findElementFromElement CssSelector s e
 
+findElemsFrom :: Element -> Selector -> WebDriver [Element]
 findElemsFrom e s = findElementsFromElement CssSelector s e
 
 waitUntil :: Int -> WebDriver a -> WebDriver a
