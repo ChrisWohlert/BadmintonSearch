@@ -30,10 +30,10 @@ baseUrl = "https://badmintonplayer.dk"
 runScraper :: ([Club] -> IO ()) -> WebDriver ()
 runScraper create = do
   navigateTo "https://badmintonplayer.dk/DBF/se-hvor-du-kan-spille-badminton/#1,,,,,0,,"
-  wait 200000
   waitUntil 10 $ "#didomi-notice-disagree-button" >>= click
   clubNamesAndUrls <- getClubsForPage 1
   let batches = chunksOf 20 clubNamesAndUrls
+  liftIO $ print $ Prelude.length batches
   traverse_ (traverse getClubFromUrl >=> liftIO . create) batches
   where
     getClubsForPage :: Int -> WebDriver [(Text, Text)]

@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.35.2.
+-- This file has been generated from package.yaml by hpack version 0.36.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -52,6 +52,7 @@ library
   build-depends:
       base >=4.7 && <5
     , bytestring
+    , io-streams
     , postgresql-simple
     , split
     , text
@@ -71,6 +72,7 @@ executable ingest-exe
       base >=4.7 && <5
     , bytestring
     , ingest
+    , io-streams
     , postgresql-simple
     , split
     , text
@@ -91,6 +93,7 @@ test-suite ingest-test
       base >=4.7 && <5
     , bytestring
     , ingest
+    , io-streams
     , postgresql-simple
     , split
     , text

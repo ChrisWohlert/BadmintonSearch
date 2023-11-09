@@ -1,7 +1,6 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE IncoherentInstances #-}
 {-# LANGUAGE InstanceSigs #-}
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -15,6 +14,7 @@ module Scraper
     click,
     getText,
     findElem,
+    findElems,
     findElemFrom,
     findElemsFrom,
     waitUntil,
@@ -76,6 +76,9 @@ getText = getElementText
 
 findElem :: Selector -> WebDriver Element
 findElem = findElement CssSelector
+
+findElems :: Selector -> WebDriver [Element]
+findElems = findElements CssSelector
 
 findElemFrom :: Element -> Selector -> WebDriver Element
 findElemFrom e s = findElementFromElement CssSelector s e

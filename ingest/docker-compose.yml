@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   selenium:
-    image: selenium/standalone-chrome:latest
+    image: selenium/standalone-chrome:112.0
     shm_size: 2gb
     container_name: selenium_badmintonplayer
     ports:
