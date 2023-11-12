@@ -13,7 +13,7 @@ runDriver driver = do
   (Right result, _, _) <-
     execWebDriverT
       conf
-      (runIsolated defaultChromeCapabilities driver)
+      (runIsolated (defaultChromeCapabilities {_timeouts = Just (emptyTimeoutConfig {_implicit = Just 5000})}) driver)
   return result
 
 conf :: WebDriverConfig IO

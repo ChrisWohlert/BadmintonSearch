@@ -26,6 +26,10 @@ dependencies:
   - postgresql-simple
   - bytestring
   - split
+  - directory
+  - time
+  - scientific
+  - containers
 
 ghc-options:
   - -Wall

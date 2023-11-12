@@ -53,8 +53,8 @@ runScraper create = do
 getClubFromUrl :: (Text, Text) -> WebDriver Club
 getClubFromUrl (name, url) = do
   navigateTo $ baseUrl <> url
-  shortName <- ("#ctl00_ContentPlaceHolder1_ClubInfo1_LabelEditName" >>= getText) `onTimeout` pure "N/A"
-  return $ Club name url shortName
+  shortName <- ("#ctl00_ContentPlaceHolder1_ClubInfo1_LabelEditName" >>= getText) `onTimeout` "N/A"
+  return $ Club 0 name url shortName
 
 isLink :: ElementRef -> WebDriver Bool
 isLink e = do

@@ -1,6 +1,6 @@
 -- Adminer 4.8.1 PostgreSQL 16.0 (Debian 16.0-1.pgdg120+1) dump
 
-CREATE SEQUENCE "clubs_Id_seq" INCREMENT  MINVALUE  MAXVALUE  CACHE ;
+CREATE SEQUENCE "clubs_Id_seq" INCREMENT 1 MINVALUE 0 NO MAXVALUE;
 
 CREATE TABLE "public"."clubs" (
     "Id" integer DEFAULT nextval('"clubs_Id_seq"') NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE "public"."clubs" (
 ) WITH (oids = false);
 
 
-CREATE SEQUENCE "players_Id_seq" INCREMENT  MINVALUE  MAXVALUE  CACHE ;
+CREATE SEQUENCE "players_Id_seq" INCREMENT 1 MINVALUE 0 NO MAXVALUE;
 
 CREATE TABLE "public"."players" (
     "Id" integer DEFAULT nextval('"players_Id_seq"') NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE "public"."players" (
 ) WITH (oids = false);
 
 
-CREATE SEQUENCE "teams_Id_seq" INCREMENT  MINVALUE  MAXVALUE  CACHE ;
+CREATE SEQUENCE "teams_Id_seq" INCREMENT 1 MINVALUE 0 NO MAXVALUE;
 
 CREATE TABLE "public"."teams" (
     "Id" integer DEFAULT nextval('"teams_Id_seq"') NOT NULL,

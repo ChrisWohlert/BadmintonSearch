@@ -5,7 +5,7 @@ services:
   selenium:
     image: selenium/standalone-chrome:112.0
     shm_size: 2gb
-    container_name: selenium_badmintonplayer
+    container_name: selenium
     ports:
       - "4444:4444"
       - "7900:7900"
@@ -21,7 +21,6 @@ services:
       POSTGRES_DB: badminton
     ports:
       - 5432:5432
-
 
   adminer:
     image: adminer
