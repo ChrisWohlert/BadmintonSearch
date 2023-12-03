@@ -18,7 +18,7 @@ migrationFolder = "Migrations"
 
 migrate :: IO ()
 migrate = do
-  files <- filter (\x -> length x > 2) <$> getDirectoryContents migrationFolder
+  files <- reverse . filter (\x -> length x > 2) <$> getDirectoryContents migrationFolder
   print files
   filesAlreadyMigrated <- withConn (`query_` "select \"Filename\" from migrations")
   traverse_ migrateFile (files \\ filesAlreadyMigrated)
